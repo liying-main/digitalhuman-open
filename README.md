@@ -1,3 +1,5 @@
+> **已停止维护（2026-10-30）**：本轻量版仅保留历史源码，不再发布新版本。请使用 [数字人桌面版 / 口播智能体](https://github.com/liying-main/liying_ai)。后续产品维护集中在两款桌面版。
+
 <div align="center">
 
 <img src="web/logo.png" width="96" alt="厉影AI" />
@@ -104,6 +106,4 @@ node --test tests/*.test.js
 ## 相关开源项目
 
 - [数字人桌面版 / 口播智能体](https://github.com/liying-main/liying_ai)
-- [数字人轻量版](https://github.com/liying-main/digitalhuman-open)
 - [混剪桌面版](https://github.com/liying-main/liying-videomix)
-- [混剪轻量版](https://github.com/liying-main/videomix-open)
