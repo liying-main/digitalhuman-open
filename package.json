@@ -1,0 +1,42 @@
+{
+  "name": "liying-digitalhuman",
+  "productName": "厉影AI 数字人",
+  "version": "0.1.0",
+  "description": "厉影AI 数字人 · 免费开源工具",
+  "main": "src/main/index.js",
+  "author": "厉影AI",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64",
+    "dist:dir": "electron-builder --win --x64 --dir"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.liying.digitalhuman",
+    "productName": "厉影AI数字人",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json",
+      "build/icon.png"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "厉影AI数字人"
+    }
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "project": "digitalhuman-open",
+  "repository": "https://github.com/liying-main/digitalhuman-open",
+  "files": [
+    {
+      "path": ".env.example",
+      "bytes": 687,
+      "sha256": "f85706cc5a839179a88c458168743bae32de717f92c6de68662e964cc8e94872"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+      "bytes": 511,
+      "sha256": "5819c5df954131b8939094ef5dbff632cbdba59b1577c39406d2247304a0bb9c"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 255,
+      "sha256": "1b6e3efc7ba92bb915d52078dc2973d22700aec15aa9e4978f1cfa14fc358011"
+    },
+    {
+      "path": "assets/README.md",
+      "bytes": 342,
+      "sha256": "ace3916a1e1bf0a68ecd5be2b22cbfb2f16bb705511c9a00eb2626dc2ba41dee"
+    },
+    {
+      "path": "build/icon.ico",
+      "bytes": 372526,
+      "sha256": "4356e777efbde6105be8b014046a6d4fdc347b78c8c2030b785cf1ebee368429"
+    },
+    {
+      "path": "build/icon.png",
+      "bytes": 93094,
+      "sha256": "a8b8d90ca4b4abcd22416fdc027fcc0e37515cfa8ffe00750d266e7e9b7efaa8"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "bytes": 851,
+      "sha256": "98be2a45bab64cca74d06dc7460c5b3fc231f25042470fd48f98ee41796578fb"
+    },
+    {
+      "path": "digitalhuman/__init__.py",
+      "bytes": 105,
+      "sha256": "cb37b4165ca0f75e91de8fe328c4f32ff7214241484d247a570a454224af83b6"
+    },
+    {
+      "path": "digitalhuman/__main__.py",
+      "bytes": 84,
+      "sha256": "8034c1c450c29dec13eb19cc0fcc4df851e945c091856160135f60653af185e6"
+    },
+    {
+      "path": "digitalhuman/cli.py",
+      "bytes": 4224,
+      "sha256": "9ca790a5180668d28b91aba6ce676060d741bb628cacca007c559b8c12d8fba2"
+    },
+    {
+      "path": "digitalhuman/config.py",
+      "bytes": 1802,
+      "sha256": "8fd1d4a9a6e2a13c00b15040a0cb81784b821af7b91afacff46b9773b0a127c6"
+    },
+    {
+      "path": "digitalhuman/pipeline.py",
+      "bytes": 5218,
+      "sha256": "468a5aedba30a324d54917c7ba09867ffb5dcce845dc504db812a06c3a3d4386"
+    },
+    {
+      "path": "digitalhuman/station.py",
+      "bytes": 9624,
+      "sha256": "036752a3a52142ace6c410337c1af43d697547a012fdb4df30958f3cfd1a2c68"
+    },
+    {
+      "path": "digitalhuman/web.py",
+      "bytes": 9350,
+      "sha256": "7d672abd85c3cd0fda3596c88d3e2af3550b6a2f37f948094ade8d138fd6c1dc"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1077,
+      "sha256": "7257a933d3a021a9765801f6270ebfa53268906f030304df20da75a4945c1206"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1010,
+      "sha256": "a4cafa86d0ddd91e40bf5eb345d696cfd062f5c9e38a0dbf51079606a11e3fae"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5734,
+      "sha256": "b80548d0d9ff2fb4e90f4f495cdb82033de8af0253fa823facd77b2863041a00"
+    },
+    {
+      "path": "RELEASE_REVIEW.md",
+      "bytes": 657,
+      "sha256": "ee4986abaa985c3e7935365f9bc71ff3ccd522e6c03ee0a6d5d637a58ec05b5a"
+    },
+    {
+      "path": "SECURITY.md",
+      "bytes": 799,
+      "sha256": "c2691f4a08408fc1fe56b8189a97e07cf8aae6d66feb0bcd7b7484f96ef52b1e"
+    },
+    {
+      "path": "src/main/index.js",
+      "bytes": 9980,
+      "sha256": "236a895acbf9190f9283c8dfbb8f843dd0d9a38f70318e60194ad63ca1662be6"
+    },
+    {
+      "path": "src/main/settings.js",
+      "bytes": 2615,
+      "sha256": "e0dfd7bef0ffc5e41645947d280adb3089cb71717aa40108853c6cce1a223edf"
+    },
+    {
+      "path": "src/main/station.js",
+      "bytes": 8160,
+      "sha256": "62f2819302370d047cd42aab1f4fef294e746767f01647ff58721389ecf05718"
+    },
+    {
+      "path": "src/preload/index.js",
+      "bytes": 1152,
+      "sha256": "ad49092a38c2abfb9173737a0a26347cc4b727cbfe882df0623ad59eb7c87aa4"
+    },
+    {
+      "path": "src/renderer/app.js",
+      "bytes": 9388,
+      "sha256": "8f70b0dd7227af17a66fc29d21dd3202c4e7af66158140a74e4eb3844d444d0c"
+    },
+    {
+      "path": "src/renderer/index.html",
+      "bytes": 6063,
+      "sha256": "9ecd16a3016d39c9e4b9343c862aa589b12b62681089d3ff4ae03a5e95422af2"
+    },
+    {
+      "path": "src/renderer/style.css",
+      "bytes": 4933,
+      "sha256": "747b77a89e81ccd93204776031a8494c6c18d093fab8c38b2b8a9ccd68b8c917"
+    },
+    {
+      "path": "start.bat",
+      "bytes": 487,
+      "sha256": "96158ed1f10423d6dcb3cd3e5856c80e1fa8ffcd574c3eacb67ea0207df3cf85"
+    },
+    {
+      "path": "tests/settings.test.js",
+      "bytes": 2398,
+      "sha256": "dcfeb4ad0fc30cc476ed6dc045c68005873a75ea6f366629fef60782424d877e"
+    },
+    {
+      "path": "tests/station.test.js",
+      "bytes": 1866,
+      "sha256": "7b677055e0add089b6bd098a47fb9263b7130809576d8faf9625dc225690e89a"
+    },
+    {
+      "path": "tests/test_pipeline.py",
+      "bytes": 2392,
+      "sha256": "74bd242649d2f065d3bccbe04472dc4fc027b2b57d12d3c6c8fbada19eaa1fcb"
+    },
+    {
+      "path": "tests/test_web.py",
+      "bytes": 3591,
+      "sha256": "4443ede0ea1202cc793e17215b946c41f5c3043bfb16f94739d670b55d0851ed"
+    },
+    {
+      "path": "tests/VALIDATION.md",
+      "bytes": 986,
+      "sha256": "d26f38db96140612acd7201930fe9c752624387f2781e872b2d98d9484776d18"
+    },
+    {
+      "path": "web/favicon.png",
+      "bytes": 9569,
+      "sha256": "f6e7a412c5ae596f1e1491dc94e87ab9baceed88159666ddfda65b9b813252ff"
+    },
+    {
+      "path": "web/index.html",
+      "bytes": 7976,
+      "sha256": "e6f8a5cf80ba8bb320fd5bfdf12e9e0ff473ed67406ddef5055c07ea08be34c7"
+    },
+    {
+      "path": "web/logo.png",
+      "bytes": 93094,
+      "sha256": "a8b8d90ca4b4abcd22416fdc027fcc0e37515cfa8ffe00750d266e7e9b7efaa8"
+    }
+  ]
+}

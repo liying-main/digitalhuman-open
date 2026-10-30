@@ -1,0 +1,22 @@
+node_modules/
+dist/
+output/
+.env
+*.log
+__pycache__/
+*.pyc
+
+
+# Local credentials and generated artifacts
+.env.*
+!.env.example
+settings.json
+settings.json.tmp
+*.log
+.venv/
+bgm/*
+!bgm/README.md
+assets/*
+!assets/README.md
+fonts/
+voices/

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self' file:; style-src 'self' 'unsafe-inline'" />
+<title>厉影AI 数字人 · 免费开源工具</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="titlebar">
+  <img src="../../build/icon.png" class="brand-logo" alt="厉影AI" />
+  <div class="brand-text">
+    <strong>厉影AI 数字人</strong>
+    <span class="badge">免费开源工具</span>
+  </div>
+  <div class="titlebar-right">
+    <button class="ghost" id="btn-settings">设置</button>
+  </div>
+</header>
+
+<main class="workspace">
+  <!-- 左：素材 -->
+  <section class="panel">
+    <h2>素材</h2>
+
+    <div class="field">
+      <label>人像素材</label>
+      <div class="drop" id="portrait-drop">
+        <video id="portrait-preview" class="preview" muted playsinline></video>
+        <div class="drop-empty" id="portrait-empty">点击选择人像视频<br /><small>mp4 / mov / webm / mkv / avi，正脸清晰</small></div>
+      </div>
+      <div class="row">
+        <button class="ghost small" id="btn-portrait">选择文件</button>
+        <button class="ghost small" id="btn-portrait-clear">清除</button>
+      </div>
+      <div class="hint" id="portrait-name">未选择</div>
+    </div>
+
+    <div class="field">
+      <label>参考音频（克隆音色）</label>
+      <div class="drop small-drop" id="voice-drop">
+        <div class="drop-empty" id="voice-empty">点击选择 3-10 秒清晰人声</div>
+      </div>
+      <div class="row">
+        <button class="ghost small" id="btn-voice">选择文件</button>
+        <button class="ghost small" id="btn-voice-clear">清除</button>
+      </div>
+      <div class="hint" id="voice-name">未选择</div>
+      <audio id="voice-preview" controls class="audio-preview" hidden></audio>
+    </div>
+  </section>
+
+  <!-- 中：内容 -->
+  <section class="panel">
+    <h2>内容</h2>
+
+    <div class="field">
+      <label>主题（交给模型写稿）</label>
+      <div class="row">
+        <input id="topic" placeholder="例如：新品发布口播" />
+        <button class="ghost small" id="btn-write">写稿</button>
+      </div>
+    </div>
+
+    <div class="field grow">
+      <label>口播文案 <span class="hint inline" id="script-count">0 字</span></label>
+      <textarea id="script" placeholder="可以直接写，也可以填主题后点「写稿」"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="checkbox">
+        <input type="checkbox" id="subtitles" checked />
+        <span>同时生成 SRT 字幕</span>
+      </label>
+    </div>
+
+    <div class="row actions">
+      <button class="primary" id="btn-start">开始生成</button>
+      <button class="ghost" id="btn-cancel" disabled>取消</button>
+    </div>
+  </section>
+
+  <!-- 右：任务与成片 -->
+  <section class="panel">
+    <h2>任务</h2>
+    <div class="progress-wrap">
+      <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="hint" id="progress-label">空闲</div>
+    </div>
+
+    <div class="log" id="log"></div>
+
+    <h2 class="mt">成片</h2>
+    <video id="result-video" class="result" controls hidden></video>
+    <div class="drop-empty" id="result-empty">还没有成片</div>
+    <div class="row" id="result-actions" hidden>
+      <button class="ghost small" id="btn-open-folder">打开目录</button>
+      <button class="ghost small" id="btn-show-item">定位文件</button>
+      <button class="ghost small" id="btn-open-video">用播放器打开</button>
+    </div>
+    <div class="hint" id="result-paths"></div>
+  </section>
+</main>
+
+<!-- 设置抽屉 -->
+<div class="drawer-mask" id="settings-mask" hidden>
+  <aside class="drawer">
+    <h2>设置</h2>
+    <p class="hint">软件按 MIT 许可免费开源。云端写稿、配音、字幕和数字人按所选服务的实际额度、价格和规则执行。只上传本次任务所需的文本与素材。</p>
+    <div class="field">
+      <label>云端服务地址</label>
+      <input id="set-base-url" />
+      <div class="hint">默认 https://api.openapi.cn/v1，可更换兼容服务；模型名称需匹配所选服务</div>
+    </div>
+    <div class="field">
+      <label>API Key</label>
+      <input id="set-api-key" type="password" placeholder="sk-..." />
+      <div class="hint"><a class="station-link" id="station-link" href="https://api.openapi.cn" target="_blank" rel="noreferrer">获取 OpenAPI Key</a>，也可填写其他兼容服务的 Key。Key 通过系统安全存储加密保存在本机。</div>
+    </div>
+    <div class="field">
+      <label>写稿专用 Key（可留空）</label>
+      <input id="set-chat-key" type="password" placeholder="留空则用上面的 Key" />
+    </div>
+    <div class="field">
+      <label>配音/字幕专用 Key（可留空）</label>
+      <input id="set-tts-key" type="password" placeholder="留空则用上面的 Key" />
+    </div>
+    <div class="grid2">
+      <div class="field"><label>写稿模型</label><input id="set-chat-model" /></div>
+      <div class="field"><label>配音模型</label><input id="set-tts-model" /></div>
+      <div class="field"><label>数字人模型</label><input id="set-avatar-model" /></div>
+      <div class="field"><label>字幕模型</label><input id="set-asr-model" /></div>
+    </div>
+    <div class="field">
+      <label>输出目录</label>
+      <div class="row">
+        <input id="set-output" placeholder="默认：视频目录/厉影AI数字人" />
+        <button class="ghost small" id="btn-output">选择</button>
+      </div>
+    </div>
+    <div class="row actions">
+      <button class="primary" id="btn-save">保存</button>
+      <button class="ghost" id="btn-close">关闭</button>
+    </div>
+  </aside>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
+

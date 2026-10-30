@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="favicon.png" /><title>厉影AI 数字人 · 免费开源工具</title><style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Microsoft YaHei", system-ui, sans-serif;
+         background: #0f1115; color: #e5e7eb; }
+  header { padding: 18px 24px; border-bottom: 1px solid #1f2430; display: flex;
+           align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  header .brand { width: 30px; height: 30px; border-radius: 8px; align-self: center; }
+  header h1 { font-size: 18px; margin: 0; }
+  header h1 .ver { font-size: 12px; font-weight: 400; color: #6b7280; margin-left: 6px; }
+  header a { color: #60a5fa; text-decoration: none; font-size: 13px; }
+  main { max-width: 880px; margin: 0 auto; padding: 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  label { display: block; font-size: 13px; color: #9ca3af; margin-bottom: 6px; }
+  input, textarea { width: 100%; padding: 9px 11px; border-radius: 8px;
+                    border: 1px solid #2a3140; background: #151922; color: #e5e7eb;
+                    font-size: 14px; font-family: inherit; }
+  textarea { min-height: 90px; resize: vertical; }
+  button { margin-top: 18px; padding: 11px 22px; border-radius: 8px; border: 0;
+           background: #2563eb; color: white; font-size: 15px; cursor: pointer; }
+  button:disabled { background: #374151; cursor: not-allowed; }
+  .hint { font-size: 12px; color: #6b7280; margin-top: 6px; }
+  pre { background: #11151d; border: 1px solid #1f2430; border-radius: 10px;
+        padding: 14px; font-size: 12.5px; line-height: 1.6; max-height: 320px;
+        overflow: auto; white-space: pre-wrap; margin-top: 20px; }
+  .results { margin-top: 18px; }
+  .results a { color: #34d399; display: block; margin: 6px 0; text-decoration: none; }
+  .err { color: #f87171; }
+
+  select { width:100%; padding:10px; background:#151922; color:#e5e7eb; border:1px solid #2a3140; border-radius:8px; }
+  .intro { padding:18px; background:#151c29; border:1px solid #283b58; border-radius:12px; margin-bottom:22px; line-height:1.8; }
+  .intro h2 { font-size:17px; margin:0 0 8px; }
+  .intro p { margin:6px 0; font-size:13px; color:#b5c3d5; }
+  a { color:#60a5fa; }
+  details { margin:18px 0; padding:15px; border:1px solid #2a3140; border-radius:10px; }
+  summary { cursor:pointer; margin-bottom:12px; }
+  .hint { color:#a1adc0; line-height:1.7; }
+  input[type=checkbox] { width:auto; }
+</style></head>
+<body><header><img src="logo.png" alt="厉影AI" class="brand" /><h1>厉影AI 数字人<span class="ver">免费开源工具</span></h1>
+</header>
+<main><section class="intro"><h2>从这里开始</h2><p>先选择云端服务并填写 API Key，再准备人像视频和参考音频；已有配音也可直接制作口型视频。</p><p>软件按 MIT 许可免费开源。云端功能按所选服务的实际额度、价格和规则执行。</p></section>
+<div class="grid"><div><label for="topic">主题（云端写稿）</label><input id="topic" placeholder="例如：新品发布口播" /></div>
+<div><label for="script">或直接填写文案</label><textarea id="script" placeholder="现成文案会跳过云端写稿"></textarea></div>
+<div><label for="portrait">人像视频路径</label><input id="portrait" placeholder="assets/portrait.mp4" /></div>
+<div><label for="voice">参考音频（克隆音色）</label><input id="voice" placeholder="assets/ref.wav" /></div>
+<div><label for="audio">已有配音文件（跳过写稿 / 配音）</label><input id="audio" placeholder="已有配音.mp3" /></div>
+<div><label><input id="subtitles" type="checkbox" checked /> 同时调用云端生成 SRT 字幕</label></div></div>
+<details id="connection" open><summary>云端服务配置</summary><div class="grid">
+<div><label for="base-url">API 地址（通常以 /v1 结尾）</label><input id="base-url" type="url" value="https://api.openapi.cn/v1" /><div class="hint">更换服务时，同时使用对应的 Key，并通过环境变量配置其支持的模型名。</div></div>
+<div><label for="key">API Key</label><input id="key" type="password" autocomplete="off" placeholder="留空使用本机环境配置" /><div id="key-state" class="hint">读取本机配置…</div></div></div>
+<p class="hint">Key 不写入浏览器存储或项目文件；只用于你主动发起的所选服务请求。<a href="https://api.openapi.cn" target="_blank" rel="noopener noreferrer">前往 OpenAPI 获取 Key</a>。云端调用会发送相应文案及需要处理的音频/人像素材。</p></details>
+<p class="hint">点击生成即按当前配置执行。云端任务可能消耗额度，请使用有权处理的素材。</p>
+<button id="run">开始生成</button><pre id="log" aria-live="polite">等待开始…</pre><div class="results" id="results"></div></main><script>const $ = (id) => document.getElementById(id);
+let timer = null;
+function fail(error) {
+  clearTimeout(timer); $('run').disabled = false;
+  $('log').textContent = '失败：' + (error.message || String(error));
+}
+async function init() {
+  try {
+    const response = await fetch('/api/config');
+    if (!response.ok) throw new Error('无法读取本机配置');
+    const config = await response.json();
+    $('base-url').value = config.base_url;
+    $('key-state').textContent = config.has_key ? '已配置本机环境 Key；留空使用本机配置。' : '尚未配置 Key；可在此填写所选服务的 Key。';
+    $('connection').open = !config.has_key;
+  } catch (error) { fail(error); }
+}
+async function start() {
+  try {
+    const body = {
+      topic: $('topic').value.trim(), script: $('script').value.trim(),
+      portrait: $('portrait').value.trim(), audio: $('audio').value.trim(),
+      voice_ref: $('voice').value.trim(), subtitles: $('subtitles').checked,
+      api_key: $('key').value.trim(), base_url: $('base-url').value.trim(),
+    };
+    if (!body.topic && !body.script && !body.audio) throw new Error('请填写主题、文案或已有配音');
+    if (!body.portrait) throw new Error('请填写人像视频路径');
+    if (!body.audio && !body.voice_ref) throw new Error('请填写参考音频路径或已有配音');
+    $('run').disabled = true;
+    $('log').textContent = '已提交任务…'; $('results').replaceChildren();
+    const response = await fetch('/api/generate', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || '提交失败');
+    poll(data.id);
+  } catch (error) { fail(error); }
+}
+async function poll(id) {
+  clearTimeout(timer);
+  try {
+    const response = await fetch('/api/job?id=' + encodeURIComponent(id));
+    const job = await response.json();
+    if (!response.ok) throw new Error(job.error || '任务查询失败');
+    $('log').textContent = (job.log || []).join('\n') || '处理中…';
+    if (job.status === 'error') throw new Error(job.error || '生成失败');
+    if (job.status === 'done') {
+      $('run').disabled = false; $('log').textContent += '\n生成完成';
+      const paths = ['voiceover', 'subtitle', 'video'].map((k) => (job.result || {})[k]).filter(Boolean);
+      for (const file of paths) {
+        const link = document.createElement('a');
+        link.href = '/api/download?name=' + encodeURIComponent(file.split(/[\\/]/).pop());
+        link.textContent = '下载：' + file; link.download = '';
+        $('results').append(link);
+      }
+      return;
+    }
+    timer = setTimeout(() => poll(id), 1500);
+  } catch (error) { fail(error); }
+}
+$('run').addEventListener('click', start);
+init();
+</script></body></html>
